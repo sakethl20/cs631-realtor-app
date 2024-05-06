@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 /cs631-realtor-application/node_modules
+.env
+
 
 # testing
 /coverage
