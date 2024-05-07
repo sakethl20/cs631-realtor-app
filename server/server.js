@@ -171,6 +171,52 @@ app.get('/getOffer',(req,res)=>{
     })
 })
 
+//Pass in: Time for viewing, user email, list_date, unit_id
+app.get('/bookViewing',(req,res)=>{
+    connection.query(`SELECT agent_email FROM listing WHERE unit_id=${req.body.unitID} AND list_date='${req.body.listDate}'`,(err,resp)=>{
+        if (err) {
+            console.error("Database error:", err);
+            return
+        }
+        let agent=resp[0].agent_email
+        //Get all viewings from active listings for a given agent, and check if any overlap with the viewing period
+        //(if start if new time is more than the previous closest and end of this time is less than next closest)
+        connection.query(`SELECT V.* FROM listing L, viewing V 
+                          WHERE agent_email='${agent}' AND L.unit_id=V.unit_id AND L.list_date=V.list_date AND L.end_date IS NULL AND 
+                          (DATE_ADD(V.time, INTERVAL 2 HOUR) > '${req.body.time}' AND V.time < DATE_ADD('${req.body.time}', INTERVAL 2 HOUR) )`
+                          ,(err,resp)=>{
+                            if (err) {
+                                console.error("Database error:", err);
+                                return
+                            }
+                            if(resp.length===0)
+                                connection.query(`SELECT * FROM viewing WHERE user_email='${req.body.Uemail}' AND
+                                (DATE_ADD(time, INTERVAL 2 HOUR) > '${req.body.time}' AND time < DATE_ADD('${req.body.time}', INTERVAL 2 HOUR) )`
+                                ,(err,resp)=>{
+                                    if (err) {
+                                        console.error("Database error:", err);
+                                        return
+                                    }
+                                    if(resp.length===0)
+                                        connection.query(`INSERT INTO viewing(user_email, unit_id, list_date, time) VALUES 
+                                        ('${req.body.Uemail}', ${req.body.unitID},'${req.body.listDate}', '${req.body.time}')`
+                                        ,(err,resp)=>{
+                                            if (err) {
+                                                console.error("Database error:", err);
+                                                return
+                                            }
+                                            res.status(200).send({status:true})
+                                        })
+
+                                    else
+                                        res.status(404).send({status:false, message:"Conflicting time with user"})              
+                                })
+                            else
+                                res.status(404).send({status:false, message:"Conflicting time with agent"})
+        })
+    })
+})
+
 app.listen(PORT, () => {
     console.log("Listening on port " + PORT);
 })
