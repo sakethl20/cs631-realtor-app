@@ -237,6 +237,31 @@ app.get('/getClients',(req,res)=>{
     })
 })
 
+app.get('/newConnection',(req,res)=>{
+    connection.query(`INSERT INTO agent_buyer(agent_email,user_email,start_date) VALUES ('${req.body.Aemail}','${req.body.Uemail}',NOW())`,(err,resp)=>{
+        if (err) {
+            console.error("Database error:", err);
+            return
+        }
+        res.status(200).send(resp)
+    })
+})
+
+app.get('/getListingSearch',(req,res)=>{
+    let numBed= req.body.numBed ? "'"+ req.body.numBed+"'" : "NULL";
+    let numBath= req.body.numBath ? "'"+ req.body.numBath+"'" : "NULL";
+    let unitType= req.body.unitType ? "'"+ req.body.unitType+"'" : "NULL";
+    connection.query(`SELECT * FROM listing L, Unit U WHERE L.unit_id=U.unit_id AND L.end_date IS NULL
+                      AND COALESCE(${numBed},num_bed)=num_bed AND COALESCE(${numBath},num_bath)=num_bath
+                      AND COALESCE(${unitType},unit_type)=unit_type AND address LIKE '%${req.body.city}%'`,(err,resp)=>{
+        if (err) {
+            console.error("Database error:", err);
+            return
+        }
+        res.status(200).send(resp)
+    })
+})
+
 app.listen(PORT, () => {
     console.log("Listening on port " + PORT);
 })
