@@ -81,6 +81,7 @@ app.get("/addListing",(req,res)=>{
     })
 })
 
+//Pass in: Address
 app.get("/removeListing",(req,res)=>{
     connection.query(`SELECT * FROM LISTING L, UNIT U where address='${req.body.address}' and L.unit_id=U.unit_id and end_date IS NULL`,(err,resp)=>{
         if (err) {
@@ -98,6 +99,75 @@ app.get("/removeListing",(req,res)=>{
                 }
                 res.status(200).send({status:true})
             })
+    })
+})
+
+//Pass in: User email
+app.get("/getListings",(req,res)=>{
+    connection.query(`SELECT * FROM listing WHERE user_email='${req.body.email}'`,(err,resp)=>{
+        if (err) {
+            console.error("Database error:", err);
+            return
+        }
+        res.status(200).send(resp)
+    })
+})
+
+//Pass in: Unit ID, Listing Date
+app.get("/getViewingSeller",(req,res)=>{
+    connection.query(`SELECT * FROM viewing WHERE unit_id=${req.body.unitID} and list_date=${req.body.listDate}`,(err,resp)=>{
+        if (err) {
+            console.error("Database error:", err);
+            return
+        }
+        res.status(200).send(resp)
+    })
+})
+
+//Pass in: User Email
+app.get("/getViewingUser",(req,res)=>{
+    connection.query(`SELECT * FROM viewing WHERE user_email='${req.body.email}'`,(err,resp)=>{
+        if (err) {
+            console.error("Database error:", err);
+            return
+        }
+        res.status(200).send(resp)
+    })
+})
+
+//Pass In: All fields of offer
+app.get("/addOffer",(req,res)=>{
+    let queryString=`user_email='${req.body.Uemail}' and agent_email='${req.body.Aemail}' and unit_id=${req.body.unitID} and list_date='${req.body.listDate}'`
+    connection.query(`SELECT * FROM offer where ${queryString} and status="pending"`,(err,resp)=>{
+        if (err) {
+            console.error("Database error:", err);
+            return
+        }
+
+        if (resp.length !== 0)
+            connection.query(`UPDATE offer SET status="rejected" WHERE ${queryString} and status="pending"`,(err,resp)=>{
+                if (err) {
+                    console.error("Database error:", err);
+                    return
+                }
+        })
+        connection.query(`INSERT INTO offer (user_email, agent_email, unit_id, list_date, offer_amount, fee_amount, status) VALUES ('${req.body.Uemail}','${req.body.Aemail}',${req.body.unitID}, '${req.body.listDate}', ${req.body.offer},${req.body.fee}, 'pending')`,(err,resp)=>{
+            if (err) {
+                console.error("Database error:", err);
+                return
+            }
+            res.status(200).send(resp)
+        })
+    })
+})
+
+app.get('/getOffer',(req,res)=>{
+    connection.query(`SELECT * FROM offer WHERE unit_id=${req.body.unitID} and list_date='${req.body.listDate}' and status="pending"`,(err,resp)=>{
+        if (err) {
+            console.error("Database error:", err);
+            return
+        }
+        res.status(200).send(resp)
     })
 })
 
