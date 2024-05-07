@@ -217,6 +217,26 @@ app.get('/bookViewing',(req,res)=>{
     })
 })
 
+app.get('/getAgents',(req,res)=>{
+    connection.query(`SELECT * FROM agent A, agent_buyer AB WHERE user_email='${req.body.email}' AND A.email=AB.agent_email`,(err,resp)=>{
+        if (err) {
+            console.error("Database error:", err);
+            return
+        }
+        res.status(200).send(resp)
+    })
+})
+
+app.get('/getClients',(req,res)=>{
+    connection.query(`SELECT * FROM user U, agent_buyer AB WHERE agent_email='${req.body.email}' AND U.email=AB.user_email`,(err,resp)=>{
+        if (err) {
+            console.error("Database error:", err);
+            return
+        }
+        res.status(200).send(resp)
+    })
+})
+
 app.listen(PORT, () => {
     console.log("Listening on port " + PORT);
 })
