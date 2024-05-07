@@ -81,6 +81,25 @@ app.get("/addListing",(req,res)=>{
     })
 })
 
+app.get("/removeListing",(req,res)=>{
+    connection.query(`SELECT * FROM LISTING L, UNIT U where address='${req.body.address}' and L.unit_id=U.unit_id and end_date IS NULL`,(err,resp)=>{
+        if (err) {
+            console.error("Database error:", err);
+            return
+        }
+
+        if (resp.length === 0)
+            res.status(404).send({status:false,message:'No active listing for this address'})
+        else
+            connection.query(`UPDATE listing SET end_date=NOW() WHERE end_date IS NULL and unit_id='${resp[0].unit_id}'`,(err,resp)=>{
+                if (err) {
+                    console.error("Database error:", err);
+                    return
+                }
+                res.status(200).send({status:true})
+            })
+    })
+})
 
 app.listen(PORT, () => {
     console.log("Listening on port " + PORT);
