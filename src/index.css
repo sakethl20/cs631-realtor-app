@@ -11,3 +11,199 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* homepage.css */
+
+/* Navbar styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+}
+
+.logo a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.5rem;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+}
+
+.nav-links li {
+  margin-right: 20px;
+}
+
+.nav-links li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.nav-links li.login-link {
+  background-color: white;
+  border-radius: 20px;
+  /* Adjust the border-radius as needed */
+  padding: 5px 20px;
+  /* Adjust the padding as needed */
+}
+
+.nav-links li.login-link a {
+  color: black;
+  /* Change the color of the link text */
+  text-decoration: none;
+  /* Remove the default underline */
+}
+
+.new-listing a {
+  color: #ffffff;
+  /* Set text color */
+  background-color: #007bff;
+  /* Set background color */
+  padding: 10px 20px;
+  /* Add padding */
+  border-radius: 5px;
+  /* Add border radius */
+  text-decoration: none;
+  /* Remove underline */
+}
+
+.new-listing a:hover {
+  background-color: #0056b3;
+  /* Change background color on hover */
+}
+
+
+/* Homepage styles */
+.homepage-container {
+  text-align: center;
+  padding: 40px;
+}
+
+.welcome-message h1 {
+  margin-bottom: 20px;
+  font-size: 2.5rem;
+}
+
+.welcome-message p {
+  font-size: 1.2rem;
+  color: #777;
+}
+
+/* Login styling */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 40px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.register-link {
+  margin-top: 20px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.register-link {
+  margin-top: 20px;
+  /* Adjust margin as needed */
+}
+
+.login-input {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.login-button {
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #0056b3;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+/* Registration styling */
+.registration-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.registration-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 40px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.registration-header {
+  text-align: center;
+}
+
+.register-link {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.registration-input {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.registration-button {
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.registration-button:hover {
+  background-color: #0056b3;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}

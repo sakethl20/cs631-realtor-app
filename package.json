@@ -9,9 +9,11 @@
     "@testing-library/user-event": "^13.5.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "firebase": "^10.11.1",
     "mysql2": "^3.9.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.23.0",
     "tar": "^7.0.1",
     "web-vitals": "^2.1.4"
   },
@@ -40,6 +42,7 @@
     ]
   },
   "devDependencies": {
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "@babel/plugin-proposal-private-property-in-object": "^7.16.5"
   }
 }
